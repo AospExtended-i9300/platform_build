@@ -1570,7 +1570,7 @@ $(INSTALLED_FILES_FILE_RECOVERY): $(INTERNAL_RECOVERYIMAGE_FILES) $(FILESLIST)
 	$(hide) $(FILESLIST) $(TARGET_RECOVERY_ROOT_OUT) > $(@:.txt=.json)
 	$(hide) build/make/tools/fileslist_util.py -c $(@:.txt=.json) > $@
 
-recovery_initrc := $(call include-path-for, recovery)/etc/init.rc
+recovery_initrc := $(call project-path-for, recovery)/etc/init.rc
 recovery_sepolicy := \
     $(TARGET_RECOVERY_ROOT_OUT)/sepolicy \
     $(TARGET_RECOVERY_ROOT_OUT)/plat_file_contexts \
@@ -1625,9 +1625,9 @@ endif
 # Note that the font selected here can be overridden for a particular device by putting a font.png
 # in its private recovery resources.
 ifneq (,$(filter xxxhdpi xxhdpi xhdpi,$(recovery_density)))
-recovery_font := $(call include-path-for, recovery)/fonts/18x32.png
+recovery_font := $(call project-path-for, recovery)/fonts/18x32.png
 else
-recovery_font := $(call include-path-for, recovery)/fonts/12x22.png
+recovery_font := $(call project-path-for,recovery)/fonts/12x22.png
 endif
 
 ifneq ($(TARGET_RECOVERY_DEVICE_DIRS),)
@@ -1684,7 +1684,7 @@ generated_recovery_text_files := \
   $(RECOVERY_WIPE_DATA_CONFIRMATION_TEXT_FILE) \
   $(RECOVERY_WIPE_DATA_MENU_HEADER_TEXT_FILE)
 
-resource_dir := $(call include-path-for, recovery)/tools/recovery_l10n/res/
+resource_dir := $(call project-path-for, recovery)/tools/recovery_l10n/res/
 image_generator_jar := $(HOST_OUT_JAVA_LIBRARIES)/RecoveryImageGenerator.jar
 zopflipng := $(HOST_OUT_EXECUTABLES)/zopflipng
 $(RECOVERY_INSTALLING_TEXT_FILE): PRIVATE_SOURCE_FONTS := $(recovery_noto-fonts_dep) $(recovery_roboto-fonts_dep)

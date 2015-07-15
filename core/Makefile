@@ -1585,6 +1585,9 @@ recovery_uncompressed_ramdisk := $(PRODUCT_OUT)/ramdisk-recovery.cpio
 
 # Set recovery_density to a density bucket based on PRODUCT_AAPT_PREF_CONFIG if set. Otherwise use
 # the default medium density.
+ifneq (,$(TARGET_RECOVERY_DENSITY))
+recovery_density := $(filter %dpi,$(TARGET_RECOVERY_DENSITY))
+else
 ifneq (,$(PRODUCT_AAPT_PREF_CONFIG))
 # If PRODUCT_AAPT_PREF_CONFIG includes a non-numeric dpi bucket, always perfer that value.
 recovery_density := $(filter %dpi,$(PRODUCT_AAPT_PREF_CONFIG))
@@ -1603,6 +1606,7 @@ endif
 else # PRODUCT_AAPT_PREF_CONFIG is empty
 recovery_density := mdpi
 endif # PRODUCT_AAPT_PREF_CONFIG
+endif # TARGET_RECOVERY_DENSITY
 
 ifneq (,$(wildcard $(recovery_resources_common)-$(recovery_density)))
 recovery_resources_common := $(recovery_resources_common)-$(recovery_density)

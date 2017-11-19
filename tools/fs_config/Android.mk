@@ -48,6 +48,12 @@ LOCAL_REQUIRED_MODULES := \
 include $(BUILD_PHONY_PACKAGE)
 
 
+ifneq ($(TARGET_FS_CONFIG_GEN),)
+ifeq ($(TARGET_ALLOW_LEGACY_AIDS),true)
+allow_legacy_aids := --allow-legacy-aids
+endif
+endif
+
 ##################################
 # Generate the <p>/etc/fs_config_files binary files for each partition.
 # Add fs_config_files to PRODUCT_PACKAGES in the device make file to enable.
@@ -93,7 +99,7 @@ $(LOCAL_BUILT_MODULE): PRIVATE_ANDROID_FS_HDR := $(system_android_filesystem_con
 $(LOCAL_BUILT_MODULE): PRIVATE_ANDROID_CAP_HDR := $(system_capability_header)
 $(LOCAL_BUILT_MODULE): PRIVATE_PARTITION_LIST := $(fs_config_generate_extra_partition_list)
 $(LOCAL_BUILT_MODULE): PRIVATE_TARGET_FS_CONFIG_GEN := $(TARGET_FS_CONFIG_GEN)
-$(LOCAL_BUILT_MODULE): $(LOCAL_PATH)/fs_config_generator.py $(TARGET_FS_CONFIG_GEN) $(system_android_filesystem_config) $(system_capability_header)
+$(LOCAL_BUILT_MODULE): $(LOCAL_PATH)/fs_config_generator.py $(TARGET_FS_CONFIG_GEN) $(allow_legacy_aids) $(system_android_filesystem_config) $(system_capability_header)
 	@mkdir -p $(dir $@)
 	$< fsconfig \
 	   --aid-header $(PRIVATE_ANDROID_FS_HDR) \
@@ -118,7 +124,7 @@ $(LOCAL_BUILT_MODULE): PRIVATE_ANDROID_FS_HDR := $(system_android_filesystem_con
 $(LOCAL_BUILT_MODULE): PRIVATE_ANDROID_CAP_HDR := $(system_capability_header)
 $(LOCAL_BUILT_MODULE): PRIVATE_PARTITION_LIST := $(fs_config_generate_extra_partition_list)
 $(LOCAL_BUILT_MODULE): PRIVATE_TARGET_FS_CONFIG_GEN := $(TARGET_FS_CONFIG_GEN)
-$(LOCAL_BUILT_MODULE): $(LOCAL_PATH)/fs_config_generator.py $(TARGET_FS_CONFIG_GEN) $(system_android_filesystem_config) $(system_capability_header)
+$(LOCAL_BUILT_MODULE): $(LOCAL_PATH)/fs_config_generator.py $(TARGET_FS_CONFIG_GEN) $(allow_legacy_aids) $(system_android_filesystem_config) $(system_capability_header)
 	@mkdir -p $(dir $@)
 	$< fsconfig \
 	   --aid-header $(PRIVATE_ANDROID_FS_HDR) \
@@ -423,7 +429,7 @@ $(LOCAL_BUILT_MODULE): PRIVATE_TARGET_FS_CONFIG_GEN := $(TARGET_FS_CONFIG_GEN)
 $(LOCAL_BUILT_MODULE): PRIVATE_ANDROID_FS_HDR := $(system_android_filesystem_config)
 $(LOCAL_BUILT_MODULE): $(LOCAL_PATH)/fs_config_generator.py $(TARGET_FS_CONFIG_GEN) $(system_android_filesystem_config)
 	@mkdir -p $(dir $@)
-	$(hide) $< passwd --required-prefix=vendor_ --aid-header=$(PRIVATE_ANDROID_FS_HDR) $(or $(PRIVATE_TARGET_FS_CONFIG_GEN),/dev/null) > $@
+	$(hide) $< passwd --required-prefix=vendor_ --aid-header=$(PRIVATE_ANDROID_FS_HDR) $(allow_legacy_aids) $(or $(PRIVATE_TARGET_FS_CONFIG_GEN),/dev/null) > $@
 
 ##################################
 # Generate the vendor/etc/group text file for the target
@@ -441,7 +447,7 @@ $(LOCAL_BUILT_MODULE): PRIVATE_TARGET_FS_CONFIG_GEN := $(TARGET_FS_CONFIG_GEN)
 $(LOCAL_BUILT_MODULE): PRIVATE_ANDROID_FS_HDR := $(system_android_filesystem_config)
 $(LOCAL_BUILT_MODULE): $(LOCAL_PATH)/fs_config_generator.py $(TARGET_FS_CONFIG_GEN) $(system_android_filesystem_config)
 	@mkdir -p $(dir $@)
-	$(hide) $< group --required-prefix=vendor_ --aid-header=$(PRIVATE_ANDROID_FS_HDR) $(or $(PRIVATE_TARGET_FS_CONFIG_GEN),/dev/null) > $@
+	$(hide) $< group --required-prefix=vendor_ --aid-header=$(PRIVATE_ANDROID_FS_HDR) $(allow_legacy_aids) $(or $(PRIVATE_TARGET_FS_CONFIG_GEN),/dev/null) > $@
 
 system_android_filesystem_config :=
 system_capability_header :=

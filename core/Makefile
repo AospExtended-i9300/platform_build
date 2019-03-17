@@ -1603,6 +1603,8 @@ recovery_kernel := $(INSTALLED_KERNEL_TARGET) # same as a non-recovery system
 recovery_ramdisk := $(PRODUCT_OUT)/ramdisk-recovery.img
 recovery_uncompressed_ramdisk := $(PRODUCT_OUT)/ramdisk-recovery.cpio
 
+recovery_resources_common := $(call include-path-for, recovery)/res
+
 # Set recovery_density to a density bucket based on PRODUCT_AAPT_PREF_CONFIG if set. Otherwise use
 # the default medium density.
 ifneq (,$(TARGET_RECOVERY_DENSITY))

@@ -1192,7 +1192,6 @@ endif
 -include external/ltp/android/ltp_package_list.mk
 DEFAULT_DATA_OUT_MODULES := ltp $(ltp_packages) $(kselftest_modules)
 .KATI_READONLY := DEFAULT_DATA_OUT_MODULES
-endif
 
 ifneq ($(CUSTOM_BUILD),)
 ## We need to be sure the global selinux policies are included
